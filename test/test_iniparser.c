@@ -852,3 +852,17 @@ void Test_iniparser_find_entry(CuTest *tc)
 
     iniparser_freedict(dic);
 }
+
+void Test_iniparser_8bit(CuTest *tc)
+{
+    dictionary *dic;
+    const char * ini_path = "ressources/good_ini/green.ini";
+
+    dic = iniparser_load(ini_path);
+    CuAssertPtrNotNullMsg(tc, ini_path, dic);
+    CuAssertIntEquals(tc, 0, strcmp("青い", iniparser_getstring(dic, "green:a", "")));
+    CuAssertIntEquals(tc, 0, strcmp("green", iniparser_getstring(dic, "green:b", "")));
+    CuAssertIntEquals(tc, 0, strcmp("grün", iniparser_getstring(dic, "green:c", "")));
+
+    dictionary_del(dic);
+}
